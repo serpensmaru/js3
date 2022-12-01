@@ -18,8 +18,9 @@ class Good {
 
 class GoodList {
     // Классд для работы с каталогом
+    #goods = [];
     constructor() {
-        this.goods = [];
+        
         this.filter = /cat/g;  // тут должна быть регулярка, ее функционал еще не сделан
         this.sortPrice = true;
         this.sortDir = true;
@@ -28,24 +29,24 @@ class GoodList {
     get list() {
         // получение каталога, в зависимости от вкл/выкл сортировки (sortPrice) и с указанием направления сортировки (sortDir)
         if (this.sortPrice) {           // в описании дз было сказанно использовать такую конструкцию filter.test(good.name)
-            return this.goods            // не понял ее смысл, но сделал проверку на регулярку, результат .search !== -1, значит элемент подходит
+            return this.#goods            // не понял ее смысл, но сделал проверку на регулярку, результат .search !== -1, значит элемент подходит
             .filter(g => g.name.search(this.filter) !== -1 && g.available)
             .sort((g1, g2) => (this.sortDir ? (g1.price - g2.price) : (g2.price - g1.price)))
         }
-        return this.goods
+        return this.#goods
             .filter(g => g.name == this.filter && g.available)
     }
 
     add(...new_good) {
         // добавление элемента(ов) в каталог
-        return this.goods.push(...new_good)
+        return this.#goods.push(...new_good)
     }
     
     remove(id) {
         // удаление элемента из каталога по id
-        let element = this.goods.find(g => g.id == id)
+        let element = this.#goods.find(g => g.id == id)
         let ind_element = this.goods.lastIndexOf(element)
-        this.goods.splice(ind_element, 1)
+        this.#goods.splice(ind_element, 1)
     }
 }
 
@@ -116,7 +117,8 @@ let e = new Good(5, "qqqqq", "qwe", "m", 2, false);
 let catalog = new GoodList()
 catalog.add(a, b, c, d)
 
-// catalog.list
+let m = catalog.list
+console.log(catalog.list)
 
 let q = new BasketGood(3, a)
 let w = new BasketGood(4, b)
